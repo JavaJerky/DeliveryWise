@@ -1,4 +1,4 @@
-package ua.foxminded.mentoring.route.model;
+package io.deliverywise.core.route.model;
 /**
  * Модель данных точки доставки (заказа).
  * Содержит все характеристики груза и географические координаты.

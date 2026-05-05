@@ -1,14 +1,13 @@
-package ua.foxminded.mentoring.route.service; // Правильный пакет для генератора
-import ua.foxminded.mentoring.route.model.DeliveryPoint;
+package io.deliverywise.core.route.service; // Правильный пакет для генератора
+import io.deliverywise.core.route.model.DeliveryPoint;
 
-import net.datafaker.Faker;
-import ua.foxminded.mentoring.route.model.Vehicle;
+import io.deliverywise.core.route.model.Vehicle;
+import io.deliverywise.core.route.model.Vehicle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-        /**
+/**
         * Сервис для генерации тестовых наборов данных.
         * Использует библиотеку DataFaker для создания реалистичных имен компаний и адресов в Украине.
         * Служит для имитации выгрузки из 1С на этапе разработки (Phase 1).

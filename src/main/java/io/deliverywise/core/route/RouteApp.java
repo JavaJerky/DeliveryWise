@@ -1,10 +1,9 @@
-package ua.foxminded.mentoring.route;
+package io.deliverywise.core.route;
 
-import com.google.ortools.Loader;
 import com.google.ortools.constraintsolver.*;
-import ua.foxminded.mentoring.route.model.DeliveryPoint;
-import ua.foxminded.mentoring.route.model.Vehicle;
-import ua.foxminded.mentoring.route.service.*;
+import io.deliverywise.core.route.model.DeliveryPoint;
+import io.deliverywise.core.route.model.Vehicle;
+import io.deliverywise.core.route.service.*;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package ua.foxminded.mentoring.route.service;
+package io.deliverywise.core.route.service;
 
-import ua.foxminded.mentoring.route.model.DeliveryPoint;
+import io.deliverywise.core.route.model.DeliveryPoint;
 
 
 import java.util.List;
