@@ -1,5 +1,26 @@
 package io.deliverywise.core.route;
 
+
+import com.google.ortools.constraintsolver.*;
+import io.deliverywise.core.route.model.DeliveryPoint;
+import io.deliverywise.core.route.service.DataGenerator;
+import io.deliverywise.core.route.service.DistanceProvider;
+import io.deliverywise.core.route.service.DistanceService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.List;
+
+@SpringBootApplication
+public class RouteApp {
+
+    public static void main(String[] args) {
+        SpringApplication.run(RouteApp.class, args);
+    }
+}
+
+
+/*
 import com.google.ortools.constraintsolver.*;
 import io.deliverywise.core.route.model.DeliveryPoint;
 import io.deliverywise.core.route.model.Vehicle;
@@ -13,6 +34,19 @@ import java.util.List;
  * запуск поискового движка Google OR-Tools для решения задачи маршрутизации (VRP).
  */
 
+/*
+import com.google.ortools.constraintsolver.*;
+
+import io.deliverywise.core.route.model.DeliveryPoint;
+import io.deliverywise.core.route.service.DataGenerator;
+import io.deliverywise.core.route.service.DistanceProvider;
+import io.deliverywise.core.route.service.DistanceService;
+
+import java.util.List;
+*/
+
+
+/*
 public class RouteApp {
 
     public static void main(String[] args) {
@@ -115,3 +149,4 @@ public class RouteApp {
         }
     }
 }
+*/

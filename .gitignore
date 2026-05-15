@@ -56,5 +56,5 @@ pom.xml.next
 release.properties
 
 # Database configuration (credentials)
-src/test/resources/application.properties
+#src/test/resources/application.properties
 src/main/resources/application-local.properties
