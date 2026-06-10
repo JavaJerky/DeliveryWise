@@ -1,0 +1,92 @@
+@startuml
+interface io.deliverywise.core.route.integration.CarrierApiClient {
+~ String login(String,String)
+}
+
+interface io.deliverywise.core.route.service.DistanceProvider {
+~ long[][] createDistanceMatrix(List<DeliveryPoint>)
+}
+
+class io.deliverywise.core.route.integration.CarrierApiClientImpl {
+- RestClient client
++ String login(String,String)
+- String md5(String)
+}
+
+
+class io.deliverywise.core.route.service.OsrmDistanceService {
++ long[][] createDistanceMatrix(List<DeliveryPoint>)
+}
+
+class io.deliverywise.core.route.RouteApp {
++ {static} void main(String[])
+}
+
+class io.deliverywise.core.route.integration.CarrierApiClientStub {
++ String login(String,String)
+}
+
+class io.deliverywise.core.route.model.DeliveryPoint {
+- int id
+- String clientName
+- String address
+- double weight
+- int boxes
+- int pallets
+- boolean isSoudal
+- boolean isBulky
+- int timeStart
+- int timeEnd
+- String notes
+- int x
+- int y
++ int y()
++ int pallets()
++ int x()
++ boolean isBulky()
++ double weight()
++ String clientName()
++ String address()
++ int timeStart()
++ int timeEnd()
++ int id()
++ String notes()
++ boolean isSoudal()
++ int boxes()
+}
+
+
+class io.deliverywise.core.route.model.Vehicle {
+- int id
+- String modelName
+- String licensePlate
+- String driverName
+- String phoneNumber
+- long capacity
+- int maxPallets
+- boolean isOwnFleet
++ String getVehicleInfo()
++ int id()
++ String driverName()
++ String phoneNumber()
++ String modelName()
++ int maxPallets()
++ String licensePlate()
++ boolean isOwnFleet()
++ long capacity()
+}
+
+
+class io.deliverywise.core.route.service.Anonymizer {
++ List<DeliveryPoint> anonymize(List<DeliveryPoint>)
++ void printSafeReport(List<DeliveryPoint>)
+}
+
+class io.deliverywise.core.route.config.WebConfig {
+}
+
+
+io.deliverywise.core.route.integration.CarrierApiClient <|.. io.deliverywise.core.route.integration.CarrierApiClientImpl
+io.deliverywise.core.route.service.DistanceProvider <|.. io.deliverywise.core.route.service.OsrmDistanceService
+io.deliverywise.core.route.integration.CarrierApiClient <|.. io.deliverywise.core.route.integration.CarrierApiClientStub
+@enduml
