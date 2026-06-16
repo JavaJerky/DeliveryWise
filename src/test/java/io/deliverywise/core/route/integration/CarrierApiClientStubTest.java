@@ -44,15 +44,21 @@ class CarrierApiClientStubTest {
         // 4. Print structured summary for physical distribution auditing
         System.out.println("\n=== [TEST] VERIFYING CARGO DISTRIBUTION VIA ENTERPRISE DATA MODELS ===");
         for (DeliveryPoint order : orders) {
-            System.out.printf("Client: %-22s | Weight: %4.0f kg | Places (Main/Fragile): %d/%d | Pallets (Main/Fragile): %d/%d | Fragile Chem: %-5b | Bulky Load: %b%n",
-                    order.customerName(),
-                    order.weightKg(),
-                    order.mainWarehousePlaces(),
-                    order.fragileWarehousePlaces(),
-                    order.mainWarehousePallets(),
-                    order.fragileWarehousePallets(),
+            // Crucial: Execute the logical constraints calculation for each point prior to output
+            // Критично: Запускаємо розрахунок логічних обмежень для кожної точки перед виведенням
+            order.calculateLogicalFlags();
+
+            System.out.printf("Client: %-22s | Weight: %4.0f kg | Places (Main/Fragile): %d/%d | Pallets (Main/Fragile): %d/%d | Fragile Chem: %-5b | Bulky Load: %-5b | Light Volumetric: %b%n",
+                    order.getCustomerName(),
+                    order.getWeightKg(),
+                    order.getMainWarehousePlaces(),
+                    order.getFragileWarehousePlaces(),
+                    order.getMainWarehousePallets(),
+                    order.getFragileWarehousePallets(),
                     order.isFragileChemicals(),
-                    order.isBulky()
+                    order.isBulky(),
+                    order.isLightVolumetric() // Output the new operational flag for high-volume, low-weight fragile cargo
+                                              // Виводимо новий операційний прапор для легкого об'ємного крихкого вантажу
             );
         }
         System.out.println("======================================================================\n");

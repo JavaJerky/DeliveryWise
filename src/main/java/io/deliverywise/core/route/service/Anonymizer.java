@@ -1,10 +1,13 @@
 package io.deliverywise.core.route.service;
 
+
 import io.deliverywise.core.route.model.DeliveryPoint;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>Data security tool designed to comply with data privacy standards and corporate non-disclosure agreements (NDAs).</p>
@@ -18,6 +21,8 @@ import java.util.stream.Collectors;
  * @author Ihor Herasymenko
  * @since 08.06.2026
  */
+
+@Slf4j
 public class Anonymizer {
 
     /**
@@ -34,36 +39,42 @@ public class Anonymizer {
 
         return realPoints.stream()
                 .map(p -> new DeliveryPoint(
-                        p.id(),
-                        "Manager_ID_" + Math.abs(p.managerName().hashCode() % 100), // Obfuscate manager identity
+                        p.getId(),
+                        "Manager_ID_" + Math.abs(p.getManagerName().hashCode() % 100), // Obfuscate manager identity
                         "Enterprise_Warehouse_Origin",                             // Mask specific origin facility
-                        "Client_Hash_" + Integer.toHexString(p.customerName().hashCode()).toUpperCase(), // Hash client name
+                        "Client_Hash_" + Integer.toHexString(p.getCustomerName().hashCode()).toUpperCase(), // Hash client name
                         "REDACTED_STREET_ADDRESS",                                 // Address text removed; coordinates remain for math
                         "HIDDEN_CONTACTS",                                         // Strip phone numbers
-                        p.weightKg(),
+                        p.getWeightKg(),
                         BigDecimal.ZERO,                                           // Prices/amounts are hidden (not needed for vehicle routing)
 
-                        p.cargoSpacesRaw(),                                        // Retain distribution string for capacity analytics
-                        p.mainWarehousePlaces(),
-                        p.fragileWarehousePlaces(),
-                        p.mainWarehousePallets(),
-                        p.fragileWarehousePallets(),
+                        p.getCargoSpacesRaw(),                                        // Retain distribution string for capacity analytics
+                        p.getMainWarehousePlaces(),
+                        p.getFragileWarehousePlaces(),
+                        p.getMainWarehousePallets(),
+                        p.getFragileWarehousePallets(),
 
-                        Collections.emptyList(),                                   // Strip invoice metadata
-                        Collections.emptyList(),                                   // Strip warehouse release documents
-                        Collections.emptyList(),                                   // Strip consignment delivery notes
+                        null,                                                     //  operationType — не передаємо
+
+                        "",                                                       // invoice
+                        "",                                                       // issueOrders
+                        "",                                                       // deliveryNotes
 
                         p.isFragileChemicals(),                                    // Retain calculated physical constraints
                         p.isBulky(),                                               // Retain oversized markers (e.g., long items)
+                        p.isLightVolumetric(),                                     // Retain high-volume, low-weight flags (e.g., insulation plugs) / Зберігає прапори легкого об'ємного вантажу (наприклад, дюбель-парасолька)
 
-                        p.timeStart(),                                             // Time windows must remain intact for OR-Tools
-                        p.timeEnd(),
+                        p.getTimeStart(),                                             // Time windows must remain intact for OR-Tools
+                        p.getTimeEnd(),
 
-                        "Optimized secure route notes",                            // Strip operational dispatch remarks
-                        p.deliveryStatus(),
+                        "Optimized secure route notes",                   // Strip operational dispatch remarks
+                        p.getDeliveryStatus(),
 
-                        p.latitude(),                                              // CRITICAL: retain coordinates for OSRM matrix
-                        p.longitude()                                              // CRITICAL: retain coordinates for OSRM matrix
+                        p.getLatitude(),                                               // CRITICAL: retain coordinates for OSRM matrix
+                        p.getLongitude(),                                              // CRITICAL: retain coordinates for OSRM matrix
+
+                        null,                                                          // routeId
+                        null                                                          // sequenceNumber
                 ))
                 .collect(Collectors.toList());
     }
@@ -80,13 +91,13 @@ public class Anonymizer {
         System.out.println("=== Safe Enterprise Logistics Report ===");
         points.forEach(p -> System.out.printf(
                 "Point ID: %d | Client: %s | Weight: %.2f kg | Pallets (Main/Fragile): %d/%d | Coords: [%.6f, %.6f]%n",
-                p.id(),
-                p.customerName(),
-                p.weightKg(),
-                p.mainWarehousePallets(),
-                p.fragileWarehousePallets(),
-                p.latitude(),
-                p.longitude()
+                p.getId(),
+                p.getCustomerName(),
+                p.getWeightKg(),
+                p.getMainWarehousePallets(),
+                p.getFragileWarehousePallets(),
+                p.getLatitude(),
+                p.getLongitude()
         ));
     }
 }
