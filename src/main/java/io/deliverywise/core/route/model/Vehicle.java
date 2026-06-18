@@ -1,43 +1,50 @@
 package io.deliverywise.core.route.model;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
 /**
  * <p>Represents a vehicle within the fleet optimization system.</p>
  * <p>Представляє транспортний засіб у системі оптимізації автопарку.</p>
  *
- * @param id                        Unique identifier of the vehicle / Унікальний ідентифікатор ТЗ.
- * @param vehicleModel              Model of the vehicle (e.g., Mercedes Sprinter) / Модель автомобіля.
- * @param vehicleRegistrationNumber License plate number / Державній реєстраційний номер.
- * @param driverName                Full name of the assigned driver / ПІБ закріпленого водія.
- * @param phoneNumber               Driver's contact phone number / Контактний номер телефону водія.
- * @param vehicleWeightCapacity     Maximum payload capacity in kilograms / Максимальна вантажопідйомність у кг.
- * @param vehiclePalletCapacity     Maximum capacity in standard pallets / Максимальна місткість у стандартних палетах.
- * @param fleetType                 The operational category of the fleet member / Операційна категорія приналежності ТЗ.
- * * @author Ihor Herasymenko
+ *
+ * @author Ihor Herasymenko
  * @since 08.06.2026
  */
-public record Vehicle(
-        int id,
-        String vehicleModel,
-        String vehicleRegistrationNumber,
-        String driverName,
-        String phoneNumber,
-        double vehicleWeightCapacity,
-        int vehiclePalletCapacity,
-        FleetType fleetType
-) {
+public class Vehicle {
 
     /**
-     * <p>Enumerates the operational types of logistics fleet vehicles.</p>
-     * <p>Перелічує операційні типи транспортних засобів у логістиці.</p>
+     * id                        Unique identifier of the vehicle / Унікальний ідентифікатор ТЗ.
+     * vehicleModel              Model of the vehicle (e.g., Mercedes Sprinter) / Модель автомобіля.
+     * vehicleRegistrationNumber License plate number / Державній реєстраційний номер.
+     * driverName                Full name of the assigned driver / ПІБ закріпленого водія.
+     * phoneNumber               Driver's contact phone number / Контактний номер телефону водія.
+     * vehicleWeightCapacity     Maximum payload capacity in kilograms / Максимальна вантажопідйомність у кг.
+     * vehiclePalletCapacity     Maximum capacity in standard pallets / Максимальна місткість у стандартних палетах.
+     * fleetType                 The operational category of the fleet member / Операційна категорія приналежності ТЗ.
+     * status                    Current operational lifecycle and availability status of the vehicle. / Поточний операційний статус життєвого циклу та доступності транспортного засобу.
      */
-    public enum FleetType {
-        /** Own corporate fleet / Власний автопарк підприємства. */
-        OWN,
-        /** Long-term or short-term rented vehicle / Найманий (залучений) транспорт. */
-        RE_HIRED,
-        /** External third-party logistics provider / Зовнішній логістичний оператор (Нова Пошта). */
-        NOVA_POSHTA
-    }
+
+    private int id;
+        private String vehicleModel;
+        private String vehicleRegistrationNumber;
+        private String driverName;
+        private String phoneNumber;
+        private double vehicleWeightCapacity;
+        private int vehiclePalletCapacity;
+        @Enumerated(EnumType.STRING)
+        private FleetType fleetType;
+        @Enumerated(EnumType.STRING)
+        private VehicleStatus status;
 
     /**
      * Forms a concise summary of the vehicle for routing sheets.
@@ -47,12 +54,23 @@ public record Vehicle(
      */
     public String getVehicleInfo() {
         String typeMarker = fleetType == FleetType.OWN ? "" : "[" + fleetType + "] ";
-        return String.format("%s%s (%s) | Driver: %s | Max Weight: %.0f kg | Pallets: %d",
+        return String.format("%s%s (%s) | Driver: %s | Max Weight: %.0f kg | Pallets: %d | Active: %-5b",
                 typeMarker,
                 vehicleModel,
                 vehicleRegistrationNumber,
                 driverName,
                 vehicleWeightCapacity,
-                vehiclePalletCapacity);
+                vehiclePalletCapacity,
+                status);
+    }
+
+    /**
+     * Checks if the vehicle is fully operational and available for today's routes.
+     * Перевіряє, чи автомобіль повністю справний та доступний для сьогоднішніх маршрутів.
+     *
+     * @return true if status is READY / true якщо статус READY
+     */
+    public boolean isAvailableForRouting() {
+        return this.status == VehicleStatus.READY;
     }
 }

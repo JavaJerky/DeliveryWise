@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "vehicleModel": "Газель Біла",
+    "vehicleRegistrationNumber": "AA1111AA",
+    "driverName": "Іванов І.",
+    "phoneNumber": "+380-50-111-11-11",
+    "vehicleWeightCapacity": 1500.0,
+    "vehiclePalletCapacity": 4,
+    "fleetType": "OWN",
+    "status": "READY"
+  },
+  {
+    "id": 2,
+    "vehicleModel": "Mercedes Sprinter",
+    "vehicleRegistrationNumber": "AA2222AA",
+    "driverName": "Петров П.",
+    "phoneNumber": "+380-50-222-22-22",
+    "vehicleWeightCapacity": 2500.0,
+    "vehiclePalletCapacity": 6,
+    "fleetType": "OWN",
+    "status": "READY"
+  },
+  {
+    "id": 3,
+    "vehicleModel": "MAN Heavy",
+    "vehicleRegistrationNumber": "AA3333AA",
+    "driverName": "Сидоров С.",
+    "phoneNumber": "+380-50-333-33-33",
+    "vehicleWeightCapacity": 4500.0,
+    "vehiclePalletCapacity": 12,
+    "fleetType": "OWN",
+    "status": "READY"
+  },
+  {
+    "id": 4,
+    "vehicleModel": "Найманий бус (Тентований)",
+    "vehicleRegistrationNumber": "AA4444AA",
+    "driverName": "Коваленко К.",
+    "phoneNumber": "+380-50-444-44-44",
+    "vehicleWeightCapacity": 1200.0,
+    "vehiclePalletCapacity": 3,
+    "fleetType": "RE_HIRED",
+    "status": "READY"
+  },
+  {
+    "id": 5,
+    "vehicleModel": "Резервний Sprinter",
+    "vehicleRegistrationNumber": "AA5555AA",
+    "driverName": "Зайцев З.",
+    "phoneNumber": "+380-50-555-55-55",
+    "vehicleWeightCapacity": 2500.0,
+    "vehiclePalletCapacity": 6,
+    "fleetType": "OWN",
+    "status": "MAINTENANCE"
+  }
+]
