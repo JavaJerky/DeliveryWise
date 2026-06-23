@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>Data security tool designed to comply with data privacy standards and corporate non-disclosure agreements (NDAs).</p>
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@Component
 public class Anonymizer {
 
     /**
