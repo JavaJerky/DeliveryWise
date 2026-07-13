@@ -1,5 +1,6 @@
 package io.deliverywise.core.route.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
@@ -79,8 +80,14 @@ public class DeliveryPoint {
     private String issueOrders;
     private String deliveryNotes;
 
+    // Lombok генерує getter isFragileChemicals() → Jackson вирізає префікс 'is' → бачить "fragileChemicals".
+    // @JsonProperty фіксує ім'я поля в JSON явно, щоб уникнути розбіжності між getter і JSON-ключем.
+    // Та сама проблема: Lombok → isBulky() → Jackson бачить "bulky"  та Lombok → isLightVolumetric() → Jackson бачить "lightVolumetric".
+    @JsonProperty("isFragileChemicals")
     private boolean isFragileChemicals;
+    @JsonProperty("isBulky")
     private boolean isBulky;
+    @JsonProperty("isLightVolumetric")
     private boolean isLightVolumetric;
 
     private int timeStart;
