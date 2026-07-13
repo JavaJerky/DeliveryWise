@@ -71,6 +71,10 @@ public class DeliveryPoint {
     private int mainWarehousePallets;
     private int fragileWarehousePallets;
 
+    // TODO: parse operationType from "Примітки" column using keyword matching
+    // (повернення, забрати, забір → RETURN; перевантаження → TRANSFER etc.)
+    // One notes field may contain multiple operation hints — handle carefully.
+    // Deferred: implement after JSoup parser is stable.
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
 

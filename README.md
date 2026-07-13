@@ -37,6 +37,16 @@ Delivery route optimization system for enterprises.
 
 ---
 
+## Deferred Features
+- **operationType auto-detection**: parse `specialNotes` column using keyword matching
+  (повернення/забрати/забір → RETURN, перевантаження → TRANSFER).
+  One notes field may contain multiple hints. Implement after JSoup parser is stable.
+- **Logistics settings panel**: configurable `serviceTimeMinutes` per point,
+  traffic density coefficients (e.g. Friday peak hours).
+  Includes "вивантаження вручну" flag → extended service time.
+
+---
+
 ## Routing Strategy & Infrastructure / Стратегія маршрутизації та інфраструктура
 
 *   **OSRM (Open Source Routing Machine)** — Основний високопродуктивний движок для обчислення геопространствених матриць. Розраховує реальні дорожні відстані та часові проміжки по картах України на основі даних OpenStreetMap (OSM), повністю замінюючи примітивну геометричну дистанцію (Хаверсин). Ізольований на рівні інтерфейсу `DistanceProvider`.
