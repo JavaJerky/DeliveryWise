@@ -47,6 +47,14 @@ Delivery route optimization system for enterprises.
 
 ---
 
+## Future Architecture (SaaS)
+- Input abstraction layer: support multiple input formats
+  (raw address / single coordinate pair / two coordinate pairs: load + delivery point)
+- Format auto-detection before geocoding pipeline
+- Anonymization layer for coordinate pairs
+
+---
+
 ## Routing Strategy & Infrastructure / Стратегія маршрутизації та інфраструктура
 
 *   **OSRM (Open Source Routing Machine)** — Основний високопродуктивний движок для обчислення геопространствених матриць. Розраховує реальні дорожні відстані та часові проміжки по картах України на основі даних OpenStreetMap (OSM), повністю замінюючи примітивну геометричну дистанцію (Хаверсин). Ізольований на рівні інтерфейсу `DistanceProvider`.
