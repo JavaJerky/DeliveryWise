@@ -41,8 +41,4 @@ public class RawOrderDto {
     private String specialNotes;
     private String status;
 
-
-
-
-
 }
