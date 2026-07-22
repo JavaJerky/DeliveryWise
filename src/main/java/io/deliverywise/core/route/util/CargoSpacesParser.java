@@ -20,6 +20,15 @@ import org.slf4j.LoggerFactory;
  * <p>Parsing is atomic: if either group fails to parse, all four fields are reset to zero.
  * Парсинг атомарний: якщо будь-яка група не розпарсилась — всі чотири поля скидаються в 0.</p>
  *
+ * <p>Returns {@code true} if parsing succeeded, {@code false} if the atomic reset was
+ * triggered — callers that need to distinguish "legitimately zero" from "malformed input"
+ * (e.g. {@code OrderMapper}) should check the return value instead of inferring it from
+ * all-zero fields.
+ * Повертає {@code true}, якщо парсинг вдався, {@code false} — якщо спрацювало атомарне
+ * скидання. Викликачі, яким потрібно відрізнити "легітимний нуль" від "битий формат"
+ * (напр. {@code OrderMapper}), мають перевіряти значення, що повертається, а не робити
+ * висновок з нульових полів.</p>
+ *
  * @author Ihor Herasymenko
  * @since 25.06.2026
  */
@@ -49,15 +58,18 @@ public class CargoSpacesParser {
      *
      * @param raw   Raw cargo spaces string from the logistics table / Сирий рядок з таблиці логістики.
      * @param point DeliveryPoint to populate / Точка доставки для заповнення.
+     * @return {@code true} if both groups parsed successfully, {@code false} if the atomic
+     *         reset was triggered (fields were zeroed) / {@code true}, якщо обидві групи
+     *         розпарсились успішно, {@code false} — якщо спрацювало атомарне скидання.
      */
-    public static void parse(String raw, DeliveryPoint point) {
+    public static boolean parse(String raw, DeliveryPoint point) {
         point.setCargoSpacesRaw(raw);
 
         if (raw == null || raw.isBlank()) {
             log.warn("CargoSpacesParser: raw string is null or blank for point id={}. Setting all cargo fields to 0.",
                     point.getId());
             resetCargoFields(point);
-            return;
+            return false;
         }
 
         // Normalize: remove all whitespace, convert to lowercase
@@ -71,7 +83,7 @@ public class CargoSpacesParser {
             log.warn("CargoSpacesParser: unexpected format '{}' (normalized: '{}') for point id={}. Expected 'X+sY/X+sY'. Setting all to 0.",
                     raw, normalized, point.getId());
             resetCargoFields(point);
-            return;
+            return false;
         }
 
         int[] places  = parseGroup(raw, groups[0], point.getId(), "places");
@@ -82,13 +94,14 @@ public class CargoSpacesParser {
         if (places == PARSE_FAILURE || pallets == PARSE_FAILURE) {
             log.warn("CargoSpacesParser: atomic reset triggered for point id={}. Raw: '{}'", point.getId(), raw);
             resetCargoFields(point);
-            return;
+            return false;
         }
 
         point.setMainWarehousePlaces(places[0]);
         point.setFragileWarehousePlaces(places[1]);
         point.setMainWarehousePallets(pallets[0]);
         point.setFragileWarehousePallets(pallets[1]);
+        return true;
     }
 
     /**

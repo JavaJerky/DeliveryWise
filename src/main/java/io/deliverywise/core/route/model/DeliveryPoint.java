@@ -12,11 +12,6 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-
 /**
  * <p>Domain model representing a delivery point or a customer order.</p>
  * <p>Доменна модель, що представляє точку доставки або замовлення клієнта.</p>
@@ -24,6 +19,11 @@ import lombok.AllArgsConstructor;
  * * @author Ihor Herasymenko
  * @since 08.06.2026
  */
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DeliveryPoint {
     /**
      * id                         Unique identifier of the delivery point / Унікальний ідентифікатор точки.

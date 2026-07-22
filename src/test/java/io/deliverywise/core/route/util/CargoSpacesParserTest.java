@@ -61,6 +61,7 @@ class CargoSpacesParserTest {
         assertThat(point.getFragileWarehousePallets()).isEqualTo(2);
     }
 
+
     // =========================================================================
     // NORMALIZATION
     // =========================================================================
@@ -162,6 +163,35 @@ class CargoSpacesParserTest {
         assertThat(point.getCargoSpacesRaw()).isEqualTo("BROKEN_FORMAT");
         assertAllFieldsZero();
     }
+
+    // =========================================================================
+    // RETURN VALUE (added for OrderMapper's incomplete-list logic — see session
+    // 21.07.2026: OrderMapper needs to tell "legitimate zero" apart from "parse
+    // failure", so parse() now returns a boolean instead of void)
+    // =========================================================================
+
+    @Test
+    @DisplayName("Standard format: '2+s1/1+s0' → returns true")
+    void parse_standardFormat_returnsTrue() {
+        boolean result = CargoSpacesParser.parse("2+s1/1+s0", point);
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("All zeros but valid format: '0+s0/0+s0' → returns true")
+    void parse_allZerosValidFormat_returnsTrue() {
+        boolean  result = CargoSpacesParser.parse("0+s0/0+s0", point);
+        assertThat(result).isTrue();
+    }
+
+
+    @Test
+    @DisplayName("Missing slash: '2+s1' → returns false")
+    void parse_missingSlash_returnsFalse() {
+        boolean result = CargoSpacesParser.parse("2+s1", point);
+        assertThat(result).isFalse();
+    }
+
 
     // =========================================================================
     // HELPER
