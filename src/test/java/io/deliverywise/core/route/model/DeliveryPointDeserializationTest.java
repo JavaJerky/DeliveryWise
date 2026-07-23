@@ -1,13 +1,14 @@
 package io.deliverywise.core.route.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Ihor Herasymenko
@@ -21,15 +22,18 @@ public class DeliveryPointDeserializationTest {
     void shouldDeserializeAllSixPoints() throws Exception {
         // 1. Читаємо файл з resources
         InputStream inputStream = getClass()
-                .getResourceAsStream("/mock-data/kyiv-test-orders.json");
+                                            .getResourceAsStream(
+                                                    "/mock-data/kyiv-test-orders.json");
 
-        assertNotNull(inputStream, "Файл kyiv-test-orders.json не знайдено в mock-data/");
+        assertNotNull(inputStream,
+                "Файл kyiv-test-orders.json не знайдено в mock-data/");
 
         // 2. Десеріалізуємо в List<DeliveryPoint>
         List<DeliveryPoint> points = objectMapper.readValue(
                 inputStream,
-                objectMapper.getTypeFactory().constructCollectionType(List.class, DeliveryPoint.class)
-        );
+                objectMapper.getTypeFactory()
+                            .constructCollectionType(List.class,
+                                    DeliveryPoint.class));
 
         // 3. Перевіряємо кількість точок
         assertEquals(6, points.size());
@@ -41,7 +45,7 @@ public class DeliveryPointDeserializationTest {
 
         // id=1..5 — DELIVERY, id=6 — RETURN
         assertEquals(OperationType.DELIVERY, points.get(0).getOperationType());
-        assertEquals(OperationType.RETURN,   points.get(5).getOperationType());
+        assertEquals(OperationType.RETURN, points.get(5).getOperationType());
     }
 
     @Test
@@ -49,7 +53,8 @@ public class DeliveryPointDeserializationTest {
         List<DeliveryPoint> points = deserialize();
 
         // id=1: orderAmount = 32000.00
-        assertEquals(new BigDecimal("32000.00"), points.get(0).getOrderAmount());
+        assertEquals(new BigDecimal("32000.00"),
+                points.get(0).getOrderAmount());
 
         // id=6 (RETURN): orderAmount = 0.00
         assertEquals(new BigDecimal("0.00"), points.get(5).getOrderAmount());
@@ -61,8 +66,11 @@ public class DeliveryPointDeserializationTest {
 
         // Всі точки до оптимізації — routeId і sequenceNumber = null
         for (DeliveryPoint point : points) {
-            assertNull(point.getRouteId(),        "routeId має бути null для point id=" + point.getId());
-            assertNull(point.getSequenceNumber(), "sequenceNumber має бути null для point id=" + point.getId());
+            assertNull(point.getRouteId(),
+                    "routeId має бути null для point id=" + point.getId());
+            assertNull(point.getSequenceNumber(),
+                    "sequenceNumber має бути null для point id="
+                            + point.getId());
         }
     }
 
@@ -83,10 +91,13 @@ public class DeliveryPointDeserializationTest {
     // --- helper ---
     private List<DeliveryPoint> deserialize() throws Exception {
         InputStream inputStream = getClass()
-                .getResourceAsStream("/mock-data/kyiv-test-orders.json");
+                                            .getResourceAsStream(
+                                                    "/mock-data/kyiv-test-orders.json");
         return objectMapper.readValue(
                 inputStream,
-                objectMapper.getTypeFactory().constructCollectionType(List.class, DeliveryPoint.class)
-        );
+                objectMapper.getTypeFactory()
+                            .constructCollectionType(List.class,
+                                    DeliveryPoint.class));
     }
+
 }

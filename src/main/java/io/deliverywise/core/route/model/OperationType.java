@@ -1,5 +1,6 @@
 package io.deliverywise.core.route.model;
 
+
 /**
  * @author Ihor Herasymenko
  * @date 11.06.2026

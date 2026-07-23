@@ -1,18 +1,19 @@
 package io.deliverywise.core.route.integration;
 
-import io.deliverywise.core.route.model.RawOrderDto;
-import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+
+import io.deliverywise.core.route.model.RawOrderDto;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
- * Unit test verifying the behaviour of {@link HtmlTableParser} using HTML-fixture.
- * Unit тест, що перевіряє поведінку {@link HtmlTableParser} з використанням HTML-фікстура.
+ * Unit test verifying the behaviour of {@link HtmlTableParser} using HTML-fixture. Unit тест, що перевіряє поведінку
+ * {@link HtmlTableParser} з використанням HTML-фікстура.
  *
  * @author Ihor Herasymenko
  */
@@ -87,10 +88,12 @@ class HtmlTableParserTest {
                 </html>
                 """;
 
-        assertThrows(IndexOutOfBoundsException.class, () -> HtmlTableParser.parse(brokenHtml));
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> HtmlTableParser.parse(brokenHtml));
     }
 
     private String readFixture(String path) throws IOException {
         return Files.readString(Path.of(path));
     }
+
 }

@@ -1,15 +1,9 @@
 package io.deliverywise.core.route.service;
 
-import io.deliverywise.core.route.model.DeliveryPoint;
-import io.deliverywise.core.route.model.MappingResult;
-import io.deliverywise.core.route.model.RawOrderDto;
-import io.deliverywise.core.route.model.UnmappedOrder;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link OrderMapper}.
@@ -29,8 +23,8 @@ class OrderMapperTest {
         // TODO: зібрати валідний RawOrderDto (усі поля заповнені, коректний
         // формат ваги/суми/М-П, адреса з [контактами] в кінці), передати
         // OrderMapper.mapAll(List.of(raw)), перевірити:
-        //  - result.incomplete() порожній
-        //  - result.readyForRouting() містить 1 DeliveryPoint з очікуваними полями
+        // - result.incomplete() порожній
+        // - result.readyForRouting() містить 1 DeliveryPoint з очікуваними полями
     }
 
     // =========================================================================
@@ -42,7 +36,7 @@ class OrderMapperTest {
     void mapAll_addressWithContacts_splitsCorrectly() {
         // TODO: deliveryAddress = "КИЇВ вул. Сирецька, 28/2 [Іван Петренко 0501234567]"
         // очікується: point.getDeliveryAddress() == "КИЇВ вул. Сирецька, 28/2"
-        //             point.getClientContacts() == "Іван Петренко 0501234567"
+        // point.getClientContacts() == "Іван Петренко 0501234567"
     }
 
     @Test
@@ -140,4 +134,5 @@ class OrderMapperTest {
     void mapAll_mixedBatch_splitsCorrectly() {
         // TODO: 2-3 рядки, різні результати, перевірити розмір обох списків
     }
+
 }

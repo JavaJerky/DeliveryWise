@@ -1,13 +1,14 @@
 package io.deliverywise.core.route.model;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the {@link MappingResult} record.
@@ -21,9 +22,11 @@ class MappingResultTest {
     @DisplayName("Constructor stores readyForRouting and incomplete as given")
     void creation_storesBothLists() {
         DeliveryPoint point = deliveryPoint(1);
-        UnmappedOrder unmapped = new UnmappedOrder(new RawOrderDto(), List.of("id: відсутній"));
+        UnmappedOrder unmapped = new UnmappedOrder(new RawOrderDto(),
+                List.of("id: відсутній"));
 
-        MappingResult result = new MappingResult(List.of(point), List.of(unmapped));
+        MappingResult result = new MappingResult(List.of(point),
+                List.of(unmapped));
 
         assertThat(result.readyForRouting()).containsExactly(point);
         assertThat(result.incomplete()).containsExactly(unmapped);
@@ -41,9 +44,10 @@ class MappingResultTest {
     @Test
     @DisplayName("readyForRouting() must not let external mutation of the source list leak back in")
     void readyForRouting_isNotMutableFromOutside() {
-        // Компактного конструктора з List.copyOf(...) наразі немає — цей тест
-        // документує бажаний контракт і зараз ПАДАЄ (actual size буде 2). Дет. див. чат.
-        List<DeliveryPoint> mutableSource = new ArrayList<>(List.of(deliveryPoint(1)));
+        // Контракт: compact constructor робить List.copyOf(...), тому зовнішня
+        // мутація списку, переданого в конструктор, не повинна відбиватись на record.
+        List<DeliveryPoint> mutableSource = new ArrayList<>(
+                List.of(deliveryPoint(1)));
         MappingResult result = new MappingResult(mutableSource, List.of());
 
         mutableSource.add(deliveryPoint(2));
@@ -59,10 +63,10 @@ class MappingResultTest {
         // incomplete() зовні модифіковним — цей тест це й ловить.
         List<UnmappedOrder> mutableSource = new ArrayList<>();
         MappingResult result = new MappingResult(List.of(), mutableSource);
+        UnmappedOrder extra = new UnmappedOrder(new RawOrderDto(), List.of());
 
-        assertThatThrownBy(() -> result.incomplete().add(
-                new UnmappedOrder(new RawOrderDto(), List.of())))
-                .isInstanceOf(UnsupportedOperationException.class);
+        assertThatThrownBy(() -> result.incomplete().add(extra))
+                                                                .isInstanceOf(UnsupportedOperationException.class);
     }
 
     private static DeliveryPoint deliveryPoint(int id) {
@@ -70,4 +74,5 @@ class MappingResultTest {
         point.setId(id);
         return point;
     }
+
 }

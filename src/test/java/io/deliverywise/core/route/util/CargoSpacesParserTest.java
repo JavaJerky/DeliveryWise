@@ -1,11 +1,13 @@
 package io.deliverywise.core.route.util;
 
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+
 import io.deliverywise.core.route.model.DeliveryPoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link CargoSpacesParser}.
@@ -180,7 +182,7 @@ class CargoSpacesParserTest {
     @Test
     @DisplayName("All zeros but valid format: '0+s0/0+s0' → returns true")
     void parse_allZerosValidFormat_returnsTrue() {
-        boolean  result = CargoSpacesParser.parse("0+s0/0+s0", point);
+        boolean result = CargoSpacesParser.parse("0+s0/0+s0", point);
         assertThat(result).isTrue();
     }
 
@@ -203,4 +205,5 @@ class CargoSpacesParserTest {
         assertThat(point.getMainWarehousePallets()).isZero();
         assertThat(point.getFragileWarehousePallets()).isZero();
     }
+
 }

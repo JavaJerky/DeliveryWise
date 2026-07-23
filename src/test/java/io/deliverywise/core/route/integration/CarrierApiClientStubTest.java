@@ -1,18 +1,23 @@
 package io.deliverywise.core.route.integration;
 
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
 import io.deliverywise.core.route.model.DeliveryPoint;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * <p>Integration test verifying the behaviour of {@link CarrierApiClientStub} using local profile constraints.</p>
- * <p>Інтеграційний тест, що перевіряє поведінку {@link CarrierApiClientStub} з використанням локального профілю.</p>
+ * <p>
+ * Integration test verifying the behaviour of {@link CarrierApiClientStub} using local profile constraints.
+ * </p>
+ * <p>
+ * Інтеграційний тест, що перевіряє поведінку {@link CarrierApiClientStub} з використанням локального профілю.
+ * </p>
  *
  * @author Ihor Herasymenko
  * @since 09.06.2026
@@ -25,8 +30,9 @@ class CarrierApiClientStubTest {
     private CarrierApiClient carrierApiClient;
 
     /**
-     * Verifies that mock data is ingested correctly from JSON resources and physical attributes are accurately calculated.
-     * Перевіряє, що макетні дані коректно зчитуються з ресурсів JSON, а фізичні атрибути обчислюються без помилок.
+     * Verifies that mock data is ingested correctly from JSON resources and physical attributes are accurately
+     * calculated. Перевіряє, що макетні дані коректно зчитуються з ресурсів JSON, а фізичні атрибути обчислюються без
+     * помилок.
      */
     @Test
     void shouldLoadOrdersFromJsonAndCalculateFlags() {
@@ -39,16 +45,19 @@ class CarrierApiClientStubTest {
 
         // 3. Evaluate basic collection metrics
         assertNotNull(orders);
-        assertFalse(orders.isEmpty(), "Operational orders list must not be empty!");
+        assertFalse(orders.isEmpty(),
+                "Operational orders list must not be empty!");
 
         // 4. Print structured summary for physical distribution auditing
-        System.out.println("\n=== [TEST] VERIFYING CARGO DISTRIBUTION VIA ENTERPRISE DATA MODELS ===");
+        System.out.println(
+                "\n=== [TEST] VERIFYING CARGO DISTRIBUTION VIA ENTERPRISE DATA MODELS ===");
         for (DeliveryPoint order : orders) {
             // Crucial: Execute the logical constraints calculation for each point prior to output
             // Критично: Запускаємо розрахунок логічних обмежень для кожної точки перед виведенням
             order.calculateLogicalFlags();
 
-            System.out.printf("Client: %-22s | Weight: %4.0f kg | Places (Main/Fragile): %d/%d | Pallets (Main/Fragile): %d/%d | Fragile Chem: %-5b | Bulky Load: %-5b | Light Volumetric: %b%n",
+            System.out.printf(
+                    "Client: %-22s | Weight: %4.0f kg | Places (Main/Fragile): %d/%d | Pallets (Main/Fragile): %d/%d | Fragile Chem: %-5b | Bulky Load: %-5b | Light Volumetric: %b%n",
                     order.getCustomerName(),
                     order.getWeightKg(),
                     order.getMainWarehousePlaces(),
@@ -57,10 +66,14 @@ class CarrierApiClientStubTest {
                     order.getFragileWarehousePallets(),
                     order.isFragileChemicals(),
                     order.isBulky(),
-                    order.isLightVolumetric() // Output the new operational flag for high-volume, low-weight fragile cargo
-                                              // Виводимо новий операційний прапор для легкого об'ємного крихкого вантажу
+                    order.isLightVolumetric() // Output the new operational flag for high-volume, low-weight fragile
+                                              // cargo
+                                              // Виводимо новий операційний прапор для легкого об'ємного крихкого
+                                              // вантажу
             );
         }
-        System.out.println("======================================================================\n");
+        System.out.println(
+                "======================================================================\n");
     }
+
 }

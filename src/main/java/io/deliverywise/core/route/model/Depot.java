@@ -1,13 +1,18 @@
 package io.deliverywise.core.route.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
+
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
- * <p>Represents the central distribution hub (Depot) for a routing session.</p>
- * <p>Представляє центральний розподільчий склад (Депо) для сесії маршрутизації.</p>
+ * <p>
+ * Represents the central distribution hub (Depot) for a routing session.
+ * </p>
+ * <p>
+ * Представляє центральний розподільчий склад (Депо) для сесії маршрутизації.
+ * </p>
  *
  * @author Ihor Herasymenko
  * @since 23.06.2026
@@ -25,8 +30,7 @@ public class Depot {
     private double longitude;
 
     /**
-     * Converts the depot properties into a standard DeliveryPoint structure
-     * required by the routing matrix and solver.
+     * Converts the depot properties into a standard DeliveryPoint structure required by the routing matrix and solver.
      */
     public DeliveryPoint toDeliveryPoint() {
         DeliveryPoint point = new DeliveryPoint();
@@ -39,4 +43,5 @@ public class Depot {
         point.setMainWarehousePlaces(0);
         return point;
     }
+
 }

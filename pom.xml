@@ -67,7 +67,7 @@
             <version>${poi.version}</version>
         </dependency>
 
-        <!-- ===== DATABASE (Phase 2 / Foxminded course) ===== -->
+        <!-- ===== DATABASE (Phase 2) ===== -->
 
         <!-- PostgreSQL JDBC driver -->
         <!-- Драйвер PostgreSQL JDBC -->
