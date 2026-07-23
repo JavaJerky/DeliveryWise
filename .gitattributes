@@ -1,0 +1,15 @@
+# Normalize line endings for the whole repository. Git decides text vs binary,
+# and stores/diffs everything as LF regardless of what an editor/OS writes on disk.
+# Це і є фікс шуму CRLF/LF, який ми ловили весь цей чат.
+* text=auto eol=lf
+
+# Windows batch scripts genuinely need CRLF to run reliably everywhere.
+*.bat text eol=crlf
+
+# Force LF line endings for hooks to prevent issues on Linux/macOS
+.githooks/* text eol=lf
+
+# Binary files — leave untouched, no EOL conversion
+*.jar binary
+*.png binary
+*.jpg binary

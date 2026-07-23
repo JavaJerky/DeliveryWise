@@ -1,0 +1,7 @@
+#!/bin/sh
+
+#! don't use 'spotless:check' ,  Use spotless:apply to comb our code
+#!mvn spotless:check
+
+mvn spotless:apply
+git add .
