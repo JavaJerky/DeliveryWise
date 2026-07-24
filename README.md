@@ -8,7 +8,9 @@ Delivery route optimization system for enterprises.
 ## What it does / Що робить
 
 * **Parses client data** (addresses, names, weight, amount, notes) from unstructured corporate formats — `JSoup`
-* **Maps parsed data (DTO)** directly to robust database business models — `MapStruct`
+* **Maps parsed data (DTO)** directly to robust database business models — hand-written `OrderMapper`
+  (MapStruct was evaluated and dropped: key fields like `cargoSpacesRaw` and `operationType` need
+  custom logic regardless, so a plain mapper is more transparent to debug)
 * **Stores geospatial data** and handles route graphs — `PostgreSQL` + `PostGIS` + `pgRouting`
 * **Optimizes delivery distribution** across active corporate vehicles under constraints (Capacity, Time Windows) — `Google OR-Tools`
 * **Calculates real road routing matrices** using OpenStreetMap routing APIs — `OSRM` / `GraphHopper`
@@ -24,7 +26,7 @@ Delivery route optimization system for enterprises.
 | **Spring Boot** | `3.3.5` | Backend core framework — каркас додатку |
 | **Hibernate** | `6.x` | ORM layer — безпечна робота з БД через Java-об'єкти |
 | **Lombok** | `1.18.x` | Boilerplate reduction — прибирає шаблонний код |
-| **MapStruct** | `1.5.x` | DTO → Entity lightning fast compiling mapper |
+| **MapStruct** | `1.5.x` | Dependency present, not used for core mapping — see Deferred Features |
 | **Flyway** | `10.x` | Database schema version control — міграції структури |
 | **PostgreSQL** | `16` | Core relational enterprise database |
 | **PostGIS** | `3.6` | Geospatial extension for advanced spatial queries |
@@ -104,8 +106,8 @@ Architecture Roadmap (v1.0)
 | :---: | :--- | :--- | :--- | :---: |
 | **0** | **Core DB Setup** | Flyway, PostGIS | Schema versioned in `/db/migration`. Clean execution without checksum conflicts. | ✅ |
 | **1** | **Ingestion Layer** | JSoup | Unstructured HTML input parsed cleanly into structured Java DTO models. | ✅ |
-| **2** | **Data Mapping** | MapStruct | Lightning-fast compiled mapping from DTO layer into database Entities. | ✅ |
-| **3** | **Geo & Routing** | OSRM, PostGIS | Given address strings → coordinates generated. Matrix calculation via real OSM road tracks. | ✅ |
+| **2** | **Data Mapping** | Hand-written `OrderMapper` | DTO layer mapped into database Entities; MapStruct evaluated and dropped (custom logic needed regardless). | ✅ |
+| **3** | **Geo & Routing** | OSRM, PostGIS | Given address strings → coordinates generated. Matrix calculation via real OSM road tracks. | 🛠️ *In Progress* |
 | **4** | **VRP Engine** | Google OR-Tools | Advanced Vehicle Routing Math execution. Total distance minimized under capacity constraints. | 🛠️ *In Progress* |
 | **5** | **REST Interface** | Spring REST | HTTP endpoints accepting data payloads and returning optimized GeoJSON route streams. | ⏳ *Planned* |
 | **6** | **Deployment** | Docker Compose | Complete system orchestration via single command with interactive Leaflet.js map UI. | ⏳ *Planned* |
