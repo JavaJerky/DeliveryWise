@@ -46,6 +46,9 @@ build/
 TODO.md
 AI_CONTEXT.md
 
+# Local debug data — real HTML exports from delivery.soldi.kiev.ua, never commit
+local-data/
+
 # Maven
 target/
 pom.xml.tag

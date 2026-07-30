@@ -46,8 +46,35 @@ Delivery route optimization system for enterprises.
 - **Logistics settings panel**: configurable `serviceTimeMinutes` per point,
   traffic density coefficients (e.g. Friday peak hours).
   Includes "вивантаження вручну" flag → extended service time.
+- **Road/traffic conditions (interim approach)**: until a paid real-time traffic API
+  (Google/HERE/TomTom) is integrated, congestion is approximated via (a) static OSRM
+  speed profiles by day-of-week/hour (see "Smart Statistics" below) and (b) a manually
+  maintained set of penalized graph edges for known problem zones (see "Virtual Walls"
+  below). This is a documented trade-off, not real-time traffic data.
+- **Order intake frontend**: replace the manual HTML client table with a proper input
+  form for placing orders.
+- **Route dashboard**: a table/board view of computed routes for dispatchers and
+  drivers (review, print, mark as completed).
 
 ---
+
+## Third-Party Services & Licensing
+
+DeliveryWise is designed to run on a fully self-hostable, license-clean open-source stack —
+no paid third-party service is required to run the core pipeline. Paid services are added only
+when a real limit is hit (e.g. real-time traffic data), not by default.
+
+| Component | License | Notes |
+| :--- | :--- | :--- |
+| OSRM | BSD-2-Clause | Self-hosted, permissive |
+| Google OR-Tools | Apache 2.0 | Permissive |
+| PostgreSQL | PostgreSQL License | Permissive |
+| PostGIS / pgRouting | GPLv2 (DB extension) | Applies to the extension running inside the DB, not to application code connecting over SQL/JDBC |
+| Leaflet | BSD-2-Clause | Permissive |
+| JSoup / Flyway (Community) / Lombok / HikariCP / Testcontainers | MIT / Apache 2.0 | Permissive |
+| Nominatim (public `nominatim.openstreetmap.org` API) | [Usage Policy](https://operations.osmfoundation.org/policies/nominatim/) | Rate-limited to 1 req/sec, not intended for production/heavy use — self-host for production |
+| Nominatim (self-hosted) | GPLv2 | Same principle as PostGIS — applies to the service, not the calling code |
+| OSM raster tiles (`tile.openstreetmap.org`) | [Tile Usage Policy](https://operations.osmfoundation.org/policies/tiles/) | Best-effort, no SLA; fine for a pilot with proper attribution, self-host a tile server for production scale |
 
 ## Future Architecture (SaaS)
 - Input abstraction layer: support multiple input formats
@@ -109,6 +136,7 @@ Architecture Roadmap (v1.0)
 | **2** | **Data Mapping** | Hand-written `OrderMapper` | DTO layer mapped into database Entities; MapStruct evaluated and dropped (custom logic needed regardless). | ✅ |
 | **3** | **Geo & Routing** | OSRM, PostGIS | Given address strings → coordinates generated. Matrix calculation via real OSM road tracks. | 🛠️ *In Progress* |
 | **4** | **VRP Engine** | Google OR-Tools | Advanced Vehicle Routing Math execution. Total distance minimized under capacity constraints. | 🛠️ *In Progress* |
+| **4.5** | **Route Analytics** | Custom comparison service | Compare newly computed routes against the previously used baseline routes — total distance, total time, vehicle count, empty-mileage %. | ⏳ *Planned* |
 | **5** | **REST Interface** | Spring REST | HTTP endpoints accepting data payloads and returning optimized GeoJSON route streams. | ⏳ *Planned* |
 | **6** | **Deployment** | Docker Compose | Complete system orchestration via single command with interactive Leaflet.js map UI. | ⏳ *Planned* |
 
