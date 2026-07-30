@@ -46,7 +46,7 @@ build/
 TODO.md
 AI_CONTEXT.md
 
-# Local debug data — real HTML exports from delivery.soldi.kiev.ua, never commit
+# Local debug data — real HTML exports from the carrier's portal, never commit
 local-data/
 
 # Maven
