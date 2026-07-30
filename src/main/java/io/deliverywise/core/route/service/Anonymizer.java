@@ -51,50 +51,63 @@ public class Anonymizer {
         }
 
         return realPoints.stream()
-                         .map(p -> new DeliveryPoint(
-                                 p.getId(),
-                                 "Manager_ID_" + Math.abs(
-                                         p.getManagerName().hashCode() % 100), // Obfuscate manager identity
-                                 "Enterprise_Warehouse_Origin", // Mask specific origin facility
-                                 "REDACTED_SENDER_ADDRESS", // Mask sender address
-                                 "Client_Hash_" + Integer.toHexString(
-                                         p.getCustomerName().hashCode())
-                                                         .toUpperCase(), // Hash client name
-                                 "REDACTED_STREET_ADDRESS", // Address text removed; coordinates remain for math
-                                 "HIDDEN_CONTACTS", // Strip phone numbers
-                                 p.getWeightKg(),
-                                 BigDecimal.ZERO, // Prices/amounts are hidden (not needed for vehicle routing)
+                         .map(p -> DeliveryPoint.builder()
+                                                .id(p.getId())
+                                                .managerName("Manager_ID_" + Math.abs(
+                                                        p.getManagerName().hashCode() % 100)) // Obfuscate manager
+                                                                                              // identity
+                                                .senderName("Enterprise_Warehouse_Origin") // Mask specific origin
+                                                                                           // facility
+                                                .senderAddress("REDACTED_SENDER_ADDRESS") // Mask sender address
+                                                .customerName("Client_Hash_" + Integer.toHexString(
+                                                        p.getCustomerName().hashCode())
+                                                                                      .toUpperCase()) // Hash client
+                                                                                                      // name
+                                                .deliveryAddress("REDACTED_STREET_ADDRESS") // Address text removed;
+                                                                                            // coordinates remain for
+                                                                                            // math
+                                                .clientContacts("HIDDEN_CONTACTS") // Strip phone numbers
+                                                .weightKg(p.getWeightKg())
+                                                .orderAmount(BigDecimal.ZERO) // Prices/amounts are hidden (not needed
+                                                                              // for vehicle routing)
 
-                                 p.getCargoSpacesRaw(), // Retain distribution string for capacity analytics
-                                 p.getMainWarehousePlaces(),
-                                 p.getFragileWarehousePlaces(),
-                                 p.getMainWarehousePallets(),
-                                 p.getFragileWarehousePallets(),
+                                                .cargoSpacesRaw(p.getCargoSpacesRaw()) // Retain distribution string for
+                                                                                       // capacity analytics
+                                                .mainWarehousePlaces(p.getMainWarehousePlaces())
+                                                .fragileWarehousePlaces(p.getFragileWarehousePlaces())
+                                                .mainWarehousePallets(p.getMainWarehousePallets())
+                                                .fragileWarehousePallets(p.getFragileWarehousePallets())
 
-                                 null, // operationType — не передаємо
+                                                .operationType(null) // operationType — не передаємо
 
-                                 "", // invoice
-                                 "", // issueOrders
-                                 "", // deliveryNotes
+                                                .invoices("")
+                                                .issueOrders("")
+                                                .deliveryNotes("")
 
-                                 p.isFragileChemicals(), // Retain calculated physical constraints
-                                 p.isBulky(), // Retain oversized markers (e.g., long items)
-                                 p.isLightVolumetric(), // Retain high-volume, low-weight flags (e.g., insulation plugs)
-                                                        // / Зберігає прапори легкого об'ємного вантажу
-                                                        // (наприклад, дюбель-парасолька)
+                                                .isFragileChemicals(p.isFragileChemicals()) // Retain calculated
+                                                                                            // physical constraints
+                                                .isBulky(p.isBulky()) // Retain oversized markers (e.g., long items)
+                                                .isLightVolumetric(p.isLightVolumetric()) // Retain high-volume,
+                                                                                          // low-weight flags
+                                                // (e.g., insulation plugs) / Зберігає прапори легкого
+                                                // об'ємного вантажу (наприклад, дюбель-парасолька)
 
-                                 p.getTimeStart(), // Time windows must remain intact for OR-Tools
-                                 p.getTimeEnd(),
+                                                .timeStart(p.getTimeStart()) // Time windows must remain intact for
+                                                                             // OR-Tools
+                                                .timeEnd(p.getTimeEnd())
 
-                                 "Optimized secure route notes", // Strip operational dispatch remarks
-                                 p.getDeliveryStatus(),
+                                                .specialNotes("Optimized secure route notes") // Strip operational
+                                                                                              // dispatch remarks
+                                                .deliveryStatus(p.getDeliveryStatus())
 
-                                 p.getLatitude(), // CRITICAL: retain coordinates for OSRM matrix
-                                 p.getLongitude(), // CRITICAL: retain coordinates for OSRM matrix
+                                                .latitude(p.getLatitude()) // CRITICAL: retain coordinates for OSRM
+                                                                           // matrix
+                                                .longitude(p.getLongitude()) // CRITICAL: retain coordinates for OSRM
+                                                                             // matrix
 
-                                 null, // routeId
-                                 null // sequenceNumber
-                         ))
+                                                .routeId(null)
+                                                .sequenceNumber(null)
+                                                .build())
                          .collect(Collectors.toList());
     }
 
