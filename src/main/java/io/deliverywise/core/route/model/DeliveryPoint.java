@@ -32,15 +32,17 @@ public class DeliveryPoint {
     /**
      * id Unique identifier of the delivery point / Унікальний ідентифікатор точки. managerName Name of the responsible
      * manager / Ім'я відповідального менеджера. senderName Name of the sending warehouse or entity / Назва відправника.
-     * customerName Anonymized customer name or ID / Анонімізоване ім'я або ID клієнта. deliveryAddress Delivery address
-     * (cleansed or masked for privacy) / Адреса доставки. clientContacts Driver-facing contact information / Контактні
-     * дані клієнта. weightKg Total weight of the order in kilograms / Загальна вага замовлення в кг. orderAmount Total
-     * monetary value of the order using BigDecimal to prevent rounding errors / Точна сума замовлення (використовує
-     * BigDecimal для запобігання помилок округлення). cargoSpacesRaw Raw logistical zone distribution string / Сирий
-     * рядок розподілу за зонами. mainWarehousePlaces Number of standard boxes from the main warehouse / Кількість місць
-     * (коробок) з основного складу. fragileWarehousePlaces Number of fragile/chemical boxes requiring special care /
-     * Кількість місць (коробок) з термо-складу (хрупке/хімія). mainWarehousePallets Number of standard heavy pallets /
-     * Кількість палет з основного складу (метизи/важке). fragileWarehousePallets Number of pallets with
+     * ssenderAddress Address of the pickup/loading point — main warehouse, second warehouse, supplier, customer return,
+     * Nova Poshta / Адреса відправлення (основний склад, другий склад, постачальник, повернення від клієнта, Нова
+     * Пошта). customerName Anonymized customer name or ID / Анонімізоване ім'я або ID клієнта. deliveryAddress Delivery
+     * address (cleansed or masked for privacy) / Адреса доставки. clientContacts Driver-facing contact information /
+     * Контактні дані клієнта. weightKg Total weight of the order in kilograms / Загальна вага замовлення в кг.
+     * orderAmount Total monetary value of the order using BigDecimal to prevent rounding errors / Точна сума замовлення
+     * (використовує BigDecimal для запобігання помилок округлення). cargoSpacesRaw Raw logistical zone distribution
+     * string / Сирий рядок розподілу за зонами. mainWarehousePlaces Number of standard boxes from the main warehouse /
+     * Кількість місць (коробок) з основного складу. fragileWarehousePlaces Number of fragile/chemical boxes requiring
+     * special care / Кількість місць (коробок) з термо-складу (хрупке/хімія). mainWarehousePallets Number of standard
+     * heavy pallets / Кількість палет з основного складу (метизи/важке). fragileWarehousePallets Number of pallets with
      * fragile/chemical goods / Кількість палет з продукцією термо-складу. operationType Operational category indicating
      * whether it is a delivery,pickup, transfer or return / Операційна категорія: доставка клієнту, забір, перевезення
      * вантажу з одного сскладу на інший, повернення від клієнта. invoices Comma-separated list of attached commercial
@@ -64,6 +66,7 @@ public class DeliveryPoint {
     private int id;
     private String managerName;
     private String senderName;
+    private String senderAddress;
     private String customerName;
     private String deliveryAddress;
     private String clientContacts;

@@ -56,6 +56,7 @@ public class Anonymizer {
                                  "Manager_ID_" + Math.abs(
                                          p.getManagerName().hashCode() % 100), // Obfuscate manager identity
                                  "Enterprise_Warehouse_Origin", // Mask specific origin facility
+                                 "REDACTED_SENDER_ADDRESS", // Mask sender address
                                  "Client_Hash_" + Integer.toHexString(
                                          p.getCustomerName().hashCode())
                                                          .toUpperCase(), // Hash client name

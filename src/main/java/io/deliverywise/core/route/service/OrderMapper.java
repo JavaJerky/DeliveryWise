@@ -106,6 +106,7 @@ public final class OrderMapper {
         point.setId(parseId(raw.getId(), issues));
         point.setManagerName(raw.getManagerName());
         point.setSenderName(raw.getSenderName());
+        point.setSenderAddress(raw.getSenderAddress());
         point.setCustomerName(raw.getCustomerName());
 
         splitAddressAndContacts(raw.getDeliveryAddress(), point, issues);
