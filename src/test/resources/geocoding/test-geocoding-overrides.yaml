@@ -1,0 +1,37 @@
+# Тестова фікстура для GeocodingOverrideMatcherTest — вигадані дані, не реальні клієнти.
+# Формат ідентичний local-data/geocoding-overrides.yaml (не в git).
+
+overrides:
+
+  # Специфічний паттерн — має перевірятись ПЕРШИМ, перед загальним нижче.
+  - address_pattern: "*тестовий ринок*сторона а*"
+    coordinates:
+      latitude: 50.4
+      longitude: 30.5
+    source: "MANUAL"
+    comment: "Fixture: сторона А (специфічний, перевіряється першим)."
+
+  # Загальний fallback — має ловити все, що не впіймав специфічний паттерн вище.
+  - address_pattern: "*тестовий ринок*"
+    coordinates:
+      latitude: 50.45
+      longitude: 30.55
+    source: "MANUAL"
+    comment: "Fixture: загальний fallback для тестового ринку."
+
+  # Незаповнені координати (як реальні TODO-записи) — має бути пропущений при завантаженні.
+  - address_pattern: "*точка без координат*"
+    coordinates:
+      latitude: null
+      longitude: null
+    source: "MANUAL"
+    comment: "Fixture: TODO-запис, координати не заповнені."
+
+  # Координати поза bounding box Києва/області (синтетичні, не прив'язані до реального міста) —
+  # має бути пропущений при завантаженні.
+  - address_pattern: "*точка поза києвом*"
+    coordinates:
+      latitude: 60.0
+      longitude: 40.0
+    source: "MANUAL"
+    comment: "Fixture: координати поза bounding box."
